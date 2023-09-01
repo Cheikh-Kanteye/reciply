@@ -20,6 +20,7 @@ import {
   HeartIcon as HeartIconSolid,
   UserIcon as UserIconSolid,
 } from "react-native-heroicons/solid";
+import COLORS from "./src/constants/colors";
 
 type StackParamlist = {
   Root: undefined;
@@ -35,7 +36,6 @@ type TabParamList = {
 
 const Stack = createNativeStackNavigator<StackParamlist>();
 const Tab = createBottomTabNavigator<TabParamList>();
-const btnColor = "#FFFFFF";
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -43,8 +43,8 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.navigator,
-        tabBarItemStyle: { backgroundColor: btnColor },
-        tabBarActiveTintColor: "#4fa964",
+        tabBarItemStyle: { backgroundColor: COLORS.white },
+        tabBarActiveTintColor: COLORS.green600,
         tabBarShowLabel: false,
       }}
       tabBar={(props) => {
@@ -80,7 +80,7 @@ const TabNavigator = () => {
         name="Fab"
         options={{
           tabBarButton: (props) => (
-            <FloatingBtn bgColor={btnColor} {...props} />
+            <FloatingBtn bgColor={COLORS.white} {...props} />
           ),
         }}
       >
@@ -116,7 +116,7 @@ const TabNavigator = () => {
 
 export default function App() {
   useEffect(() => {
-    if (Platform.OS == "android") NavBar.setBackgroundColorAsync("#ffffff");
+    if (Platform.OS == "android") NavBar.setBackgroundColorAsync(COLORS.white);
   }, []);
 
   return (
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    shadowColor: "#000",
+    shadowColor: COLORS.gray900,
     shadowOffset: {
       width: 0,
       height: 1,

@@ -7,6 +7,7 @@ import {
 } from "react-native-responsive-dimensions";
 import Svg, { Path } from "react-native-svg";
 import { images } from "../assets";
+import COLORS from "../constants/colors";
 
 type Props = BottomTabBarButtonProps & {
   bgColor?: string;
@@ -33,7 +34,7 @@ const FloatingBtn: React.FC<Props> = ({ bgColor, ...props }) => {
         <Image
           source={images.chef}
           resizeMode="contain"
-          style={{ width: rnf(3), height: rnf(3), tintColor: "white" }}
+          style={{ width: rnf(3), height: rnf(3), tintColor: COLORS.white }}
         />
       </TouchableOpacity>
     </View>
