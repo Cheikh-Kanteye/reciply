@@ -1,7 +1,7 @@
 import { ColorValue, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FONTS } from "../constants/metrics";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
-import { useState, useReducer, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import COLORS from "../constants/colors";
 
 const LikeBtn = ({
@@ -12,18 +12,19 @@ const LikeBtn = ({
   color: ColorValue;
 }) => {
   const [isLiked, setIsLiked] = useState(false);
+
   const toggle = useCallback(() => {
     setIsLiked((v) => !v);
   }, []);
 
   //format rating number to make it simplify, exemple: 23400 become 2.34k
   const formatedRating = (rate: number) => {
-    if (rating < 1000) {
-      return rating.toString();
-    } else if (rating < 100000) {
-      return (rating / 1000).toFixed(2) + "K";
+    if (rate < 1000) {
+      return rate.toString();
+    } else if (rate < 100000) {
+      return (rate / 1000).toFixed(2) + "K";
     } else {
-      return (rating / 100000).toFixed(2) + "M";
+      return (rate / 100000).toFixed(2) + "M";
     }
   };
 

@@ -4,9 +4,9 @@ import {
   BottomTabBar,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-import { Favorites, Home, Profile, Search } from "./src/screens";
+import { Favorites, Home, Profile, RecipeDetail, Search } from "./src/screens";
 import { FloatingBtn } from "./src/components";
-import { Platform, StyleSheet, View } from "react-native";
+import { FlatList, Platform, StyleSheet, View } from "react-native";
 import * as NavBar from "expo-navigation-bar";
 import { useEffect } from "react";
 import {
@@ -21,18 +21,7 @@ import {
   UserIcon as UserIconSolid,
 } from "react-native-heroicons/solid";
 import COLORS from "./src/constants/colors";
-
-type StackParamlist = {
-  Root: undefined;
-};
-
-type TabParamList = {
-  Home: undefined;
-  Search: undefined;
-  Favorites: undefined;
-  Profile: undefined;
-  Fab: undefined;
-};
+import { StackParamlist, TabParamList } from "./src/utils/type";
 
 const Stack = createNativeStackNavigator<StackParamlist>();
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -126,6 +115,7 @@ export default function App() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Root" component={TabNavigator} />
+        <Stack.Screen name="RecipeDetail" component={RecipeDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

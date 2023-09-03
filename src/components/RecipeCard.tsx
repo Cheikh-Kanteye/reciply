@@ -14,39 +14,41 @@ import {
 } from "../constants/metrics";
 import COLORS from "../constants/colors";
 import LikeBtn from "./LikeBtn";
-import { ClockIcon } from "react-native-heroicons/solid";
+import { ClockIcon, FireIcon, ScaleIcon } from "react-native-heroicons/solid";
 import { LinearGradient } from "expo-linear-gradient";
 import { images } from "../assets";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface RecipeCardProps {
   title: string;
   cookTime: number;
+  foodScale: number;
   calories: number;
-  level: "easy" | "medium" | "hard";
-  author: {
-    image: ImageSourcePropType;
-    name: string;
-  };
+  source: string;
   liked: number;
-  recipeImg: ImageSourcePropType;
+  recipeImg: ImageSourcePropType | string;
   onPress: () => void;
 }
 
 const CARD_RADIUS = LARGE_CARD_HEIGHT * 0.1;
 const RecipeCard: React.FC<RecipeCardProps> = ({
-  author,
+  source,
   calories,
   cookTime,
-  level,
+  foodScale,
   liked,
   title,
   recipeImg,
   onPress,
 }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
       <ImageBackground
-        source={recipeImg}
+        source={
+          typeof recipeImg !== "string"
+            ? images.defaultRecipe
+            : { uri: recipeImg }
+        }
         resizeMode="cover"
         style={styles.cardContainer}
       >
@@ -55,15 +57,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           style={styles.backdrop}
         />
         <View style={styles.cardHeader}>
-          <View style={styles.user}>
-            <View style={styles.profile}>
-              <Image
-                source={author.image}
-                style={{ width: "100%", height: "100%" }}
-                resizeMode="cover"
-              />
-            </View>
-            <Text style={styles.username}>{author.name}</Text>
+          <View style={styles.source_link}>
+            <Text style={styles.source}>
+              source: <Text style={{ color: COLORS.green400 }}>{source}</Text>
+            </Text>
           </View>
           <LikeBtn rating={liked} color={COLORS.white} />
         </View>
@@ -72,16 +69,18 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <View style={styles.cardFooter}>
             <View style={styles.cardFooterItem}>
               <ClockIcon size={20} color={COLORS.green400} />
-              <Text style={styles.cardFooterItemLabel}>{cookTime}min</Text>
+              <Text style={styles.cardFooterItemLabel}>
+                {cookTime == 0 ? 10 : cookTime}min
+              </Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.cardFooterItem}>
-              <ClockIcon size={20} color={COLORS.green400} />
-              <Text style={styles.cardFooterItemLabel}>{level}</Text>
+              <ScaleIcon size={20} color={COLORS.green400} />
+              <Text style={styles.cardFooterItemLabel}>{foodScale}g</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.cardFooterItem}>
-              <ClockIcon size={20} color={COLORS.green400} />
+              <FireIcon size={20} color={COLORS.green400} />
               <Text style={styles.cardFooterItemLabel}>{calories} Cal</Text>
             </View>
           </View>
@@ -112,16 +111,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  user: {
+  source_link: {
     flexDirection: "row",
     padding: 6,
+    paddingHorizontal: 12,
     backgroundColor: COLORS.white,
     justifyContent: "center",
     alignItems: "center",
     gap: 8,
     borderRadius: 20,
   },
-  username: {
+  source: {
     fontSize: FONTS.s,
     textTransform: "capitalize",
   },
