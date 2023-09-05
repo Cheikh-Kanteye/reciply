@@ -36,7 +36,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   calories,
   cookTime,
   foodScale,
-  liked,
   title,
   recipeImg,
   onPress,
@@ -62,7 +61,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               source: <Text style={{ color: COLORS.green400 }}>{source}</Text>
             </Text>
           </View>
-          <LikeBtn rating={liked} color={COLORS.white} />
+          <LikeBtn color={COLORS.white} />
         </View>
         <View>
           <Text style={styles.recipeName}>{title}</Text>
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
   source: {
     fontSize: FONTS.s,
     textTransform: "capitalize",
+    fontFamily: "SourceSansProRegular",
   },
   profile: {
     width: CARD_RADIUS,
@@ -163,5 +163,6 @@ const styles = StyleSheet.create({
     paddingBottom: CARD_RADIUS / 2,
     color: COLORS.white,
     textTransform: "capitalize",
+    fontFamily: "SourceSansProSemibold",
   },
 });

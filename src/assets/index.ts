@@ -4,4 +4,5 @@ export const images = {
   defaultUser: require("./images/default-user.jpg"),
   share: require("./images/share.png"),
   arrowLeft: require("./images/arrow.png"),
+  whisk: require("./images/whisk.png"),
 };
