@@ -1,5 +1,4 @@
 import {
-  Image,
   ImageBackground,
   ImageSourcePropType,
   StyleSheet,
@@ -11,21 +10,22 @@ import {
   FONTS,
   LARGE_CARD_HEIGHT,
   LARGE_CARD_WIDTH,
+  PADDING,
+  WIDTH,
 } from "../constants/metrics";
 import COLORS from "../constants/colors";
 import LikeBtn from "./LikeBtn";
 import { ClockIcon, FireIcon, ScaleIcon } from "react-native-heroicons/solid";
 import { LinearGradient } from "expo-linear-gradient";
 import { images } from "../assets";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface RecipeCardProps {
   title: string;
-  cookTime: number;
-  foodScale: number;
-  calories: number;
-  source: string;
-  liked: number;
+  cookTime?: number | undefined;
+  foodScale?: number | undefined;
+  calories?: number | undefined;
+  source?: string;
+  size?: "large" | "small";
   recipeImg: ImageSourcePropType | string;
   onPress: () => void;
 }
@@ -38,8 +38,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   foodScale,
   title,
   recipeImg,
+  size = "large",
   onPress,
 }) => {
+  const width = size == "large" ? LARGE_CARD_WIDTH : WIDTH / 2 - PADDING;
+  const borderRadius = size == "large" ? 30 : 16;
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
       <ImageBackground
@@ -49,7 +52,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             : { uri: recipeImg }
         }
         resizeMode="cover"
-        style={styles.cardContainer}
+        style={[styles.cardContainer, { width, borderRadius }]}
       >
         <LinearGradient
           colors={["transparent", "rgba(0 ,0, 0, 0.5)"]}
@@ -63,27 +66,56 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           </View>
           <LikeBtn color={COLORS.white} />
         </View>
-        <View>
-          <Text style={styles.recipeName}>{title}</Text>
-          <View style={styles.cardFooter}>
-            <View style={styles.cardFooterItem}>
-              <ClockIcon size={20} color={COLORS.green400} />
-              <Text style={styles.cardFooterItemLabel}>
-                {cookTime == 0 ? 10 : cookTime}min
-              </Text>
-            </View>
-            <View style={styles.separator} />
-            <View style={styles.cardFooterItem}>
-              <ScaleIcon size={20} color={COLORS.green400} />
-              <Text style={styles.cardFooterItemLabel}>{foodScale}g</Text>
-            </View>
-            <View style={styles.separator} />
-            <View style={styles.cardFooterItem}>
-              <FireIcon size={20} color={COLORS.green400} />
-              <Text style={styles.cardFooterItemLabel}>{calories} Cal</Text>
+        {size == "large" ? (
+          <View>
+            <Text style={styles.recipeName}>{title}</Text>
+            <View style={styles.cardFooter}>
+              <View style={styles.cardFooterItem}>
+                <ClockIcon size={20} color={COLORS.green400} />
+                <Text style={styles.cardFooterItemLabel}>
+                  {cookTime == 0 ? 10 : cookTime}min
+                </Text>
+              </View>
+              <View style={styles.separator} />
+              <View style={styles.cardFooterItem}>
+                <ScaleIcon size={20} color={COLORS.green400} />
+                <Text style={styles.cardFooterItemLabel}>{foodScale}g</Text>
+              </View>
+              <View style={styles.separator} />
+              <View style={styles.cardFooterItem}>
+                <FireIcon size={20} color={COLORS.green400} />
+                <Text style={styles.cardFooterItemLabel}>{calories} Cal</Text>
+              </View>
             </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.smallCardFooter}>
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: FONTS.m,
+                fontFamily: "QuicksandSemibold",
+                color: COLORS.gray600,
+                paddingBottom: 6,
+              }}
+            >
+              {title}
+            </Text>
+            <View style={styles.smallCardFooterRow}>
+              <View style={styles.cardFooterItem}>
+                <ClockIcon size={20} color={COLORS.green400} />
+                <Text style={styles.cardFooterItemLabel}>
+                  {cookTime == 0 ? 10 : cookTime}min
+                </Text>
+              </View>
+              <View style={styles.separator} />
+              <View style={styles.cardFooterItem}>
+                <FireIcon size={20} color={COLORS.green400} />
+                <Text style={styles.cardFooterItemLabel}>{calories} Cal</Text>
+              </View>
+            </View>
+          </View>
+        )}
       </ImageBackground>
     </TouchableOpacity>
   );
@@ -93,9 +125,7 @@ export default RecipeCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: LARGE_CARD_WIDTH,
     height: LARGE_CARD_HEIGHT,
-    borderRadius: LARGE_CARD_HEIGHT * 0.1,
     backgroundColor: COLORS.background,
     justifyContent: "space-between",
     overflow: "hidden",
@@ -145,6 +175,18 @@ const styles = StyleSheet.create({
     borderRadius: CARD_RADIUS,
     backgroundColor: COLORS.white,
     elevation: 4,
+  },
+  smallCardFooter: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 16,
+    backgroundColor: COLORS.white,
+    elevation: 4,
+  },
+  smallCardFooterRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   cardFooterItem: {
     flex: 1,

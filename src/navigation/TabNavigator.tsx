@@ -27,6 +27,7 @@ const TabNavigator = () => {
         tabBarItemStyle: { backgroundColor: COLORS.white },
         tabBarActiveTintColor: COLORS.green600,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
       }}
       tabBar={(props) => {
         return (

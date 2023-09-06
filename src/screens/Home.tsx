@@ -135,7 +135,6 @@ const Home = () => {
                 calories={Math.round(recipe.calories)}
                 cookTime={recipe.totalTime}
                 foodScale={Math.round(recipe.totalWeight)}
-                liked={2340}
                 recipeImg={recipe.image}
                 onPress={() => navigation.navigate("RecipeDetail", { recipe })}
               />
